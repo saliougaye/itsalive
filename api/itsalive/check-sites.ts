@@ -9,10 +9,26 @@ const supabase = createClient<Database>(
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CALLBACK_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+const SECRET = process.env.CHECK_SITE_SECRET;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
 	if (req.method !== "POST") {
 		return res.status(405).send("Method Not Allowed");
+	}
+
+	const authHeader = req.headers.authorization;
+
+	if (!authHeader) {
+		return res.status(401).json({
+			message: "Unauthorized",
+		});
+	}
+
+	const token = authHeader.split(" ")[1];
+	if (token !== SECRET) {
+		return res.status(401).json({
+			message: "Unauthorized",
+		});
 	}
 
 	const {data: sites, error} = await supabase.from("itsalive_sites").select();

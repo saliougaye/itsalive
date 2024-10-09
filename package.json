@@ -1,17 +1,19 @@
 {
-  "name": "telegram-bots",
+  "name": "itsalive",
   "version": "1.0.0",
-  "description": "A repo where all my telegram bots are placed",
+  "description": "This bot inform you when a site goes down",
   "scripts": {
-    "setup-tg-webhook": "wget --method=POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/setWebhook?url=https://telegram-bots-rust.vercel.app/api/itsalive/bot",
+    "setup-tg-webhook": "wget --method=POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/setWebhook?url=${API_URL}/api/itsalive/bot",
     "deploy:prod": "vercel --prod",
-    "check-sites": "wget --method=POST https://telegram-bots-rust.vercel.app/api/itsalive/check-sites",
-    "generate-supabase-types": "supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > api/itsalive/_supabase.types.ts"
+    "check-sites": "wget --method=POST ${API_URL}/api/itsalive/check-sites",
+    "generate-supabase-types": "supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > api/itsalive/_supabase.types.ts",
+    "set-upstash-schedule": "wget --method=POST --header=\"Authorization: Bearer ${UPSTASH_TOKEN}\" --header=\"Upstash-Cron: */20 * * * *\" --header=\"Upstash-Forward-Authorization: Berear ${CHECK_SITE_SECRET}\" --body-data=\"\" https://qstash.upstash.io/v2/schedules/${API_URL}/api/itsalive/check-sites"
   },
   "author": "Saliou Gaye <https://github.com/saliougaye>",
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
     "@vercel/node": "^3.2.20",
+    "dayjs": "^1.11.13",
     "zod": "^3.23.8"
   },
   "devDependencies": {
