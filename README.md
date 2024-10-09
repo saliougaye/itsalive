@@ -1,7 +1,7 @@
 
 <p align="center">
   <img src="docs/bot_logo.jpg" width="200px" align="center" alt="Zod logo" />
-  <h1 align="center">✨ It's Aliv e✨</h1>
+  <h1 align="center">✨ It's Alive✨</h1>
 </p>
 
 This Telegram bot is designed to keep you informed about the status of websites by sending instant alerts whenever a site goes down.
